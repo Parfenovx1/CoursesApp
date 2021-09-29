@@ -1,0 +1,11 @@
+.button{
+    border: 2px solid purple;
+    margin-right: 1.576vw;
+    margin-left: 1.576vw;
+    cursor: pointer;
+    height: 30px;
+    width: 7.882vw;
+    font-size: 16px;
+    border-radius: 15px;
+    min-width: 132px;
+}
