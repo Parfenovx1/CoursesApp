@@ -34,7 +34,7 @@ const mockedCoursesList = [
 		],
 	},
 	{
-		id: 'b5630fdd-7bf7-4d39-b75a-2b5906fd0916',
+		id: 'f17402fe-7225-47c6-828b-2d4f4be25bd9',
 		title: 'React',
 		description: `Lorem Ipsum is simply dummy text of the printing and
    typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
@@ -45,6 +45,21 @@ const mockedCoursesList = [
 		duration: 210,
 		authors: [
 			'df32994e-b23d-497c-9e4d-84e4dc02882f',
+			'095a1817-d45b-4ed7-9cf7-b2417bcbf748',
+		],
+	},
+	{
+		id: 'c051ee90-3c1f-4d2d-9ee1-df829eee269b',
+		title: 'NodeJS',
+		description: `Lorem Ipsum is simply dummy text of the printing and
+   typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since
+   the 1500s, when an unknown
+    printer took a galley of type and scrambled it to make
+   a type specimen book.`,
+		creationDate: '11/11/2020',
+		duration: 1190,
+		authors: [
+			'f762978b-61eb-4096-812b-ebde22838167',
 			'095a1817-d45b-4ed7-9cf7-b2417bcbf748',
 		],
 	},

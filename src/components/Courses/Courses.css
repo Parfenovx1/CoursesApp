@@ -1,14 +1,8 @@
 .courses-wrapper{
     border: 1px solid blue;
     margin-top: 0.525vw;
-    border-radius: 0.788vw;
+    border-radius: 15px;
 }
-
-.search-wrapper{
-    display: flex;
-    flex-direction: row;
-}
-
 
 .courses-top-wrapper{
     display: flex;

@@ -9,19 +9,13 @@
     justify-content: space-between;
 }
 
-@media(max-width: 860px){
-    .course-card-wrapper{
-        flex-direction: column;
-    }
 
-    .rightside{
-        margin-right: 0px;
-        margin-left: 1.314vw;
-    }
+.course-name{
+    font-size: 50px;
 }
 
 .course-decs{
-    width: 31.529vw;
+    width: 60vw;
 }
 
 .leftside{
@@ -35,5 +29,21 @@
     flex-direction: column;
     margin-right: 1.314vw;
     margin-bottom: 0.525vw;
-    width: 15.740vw;
+    width: 20vw;
+    justify-content: center;
+}
+
+@media(max-width: 860px){
+    .course-card-wrapper{
+        flex-direction: column;
+    }
+
+    .rightside{
+        margin-right: 0px;
+        margin-left: 1.314vw;
+    }
+
+    .course-decs{
+        width: 84vw;
+    }
 }

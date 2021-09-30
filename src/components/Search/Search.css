@@ -1,0 +1,15 @@
+.search{
+    margin-left: 1.314vw;
+    border: 3px solid yellow;
+    width: 42.039vw;
+    min-width: 240px;
+    height: 30px;
+    outline: none;
+    font-size: 16px;
+    border-radius: 15px;
+}
+
+.search-wrapper{
+    display: flex;
+    flex-direction: row;
+}

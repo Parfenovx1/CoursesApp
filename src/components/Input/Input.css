@@ -1,10 +1,14 @@
-.search{
-    margin-left: 1.314vw;
-    border: 1px solid yellow;
-    width: 42.039vw;
-    min-width: 240px;
-    height: 30px;
-    outline: none;
-    font-size: 16px;
+#input{
+    border: 2px solid brown;
     border-radius: 15px;
+    width: 35vw;
+    outline: none;
+    height: 25px;
+}
+
+.input-wrapper{
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    margin-bottom: 1vw;
 }

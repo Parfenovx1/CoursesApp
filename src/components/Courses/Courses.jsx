@@ -1,29 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Courses.css';
 import Button from '../Button/Button';
-import Input from '../Input/Input';
+import Search from '../Search/Search';
 import CourseCard from '../CourseCard/CourseCard';
 import mockedCoursesList from '../../sampleCourses';
 import mockedAuthorsList from '../../sampleAuthors';
 
-function Courses() {
+function Courses(props) {
+	const [inputValue, setValue] = useState('');
+	let [courses, setCourses] = useState(mockedCoursesList);
+
+	courses = courses.filter((course) => {
+		return course.title.toLowerCase().includes(inputValue.toLowerCase());
+	});
 	return (
 		<div className='courses-wrapper'>
 			<div className='courses-top-wrapper'>
 				<div className='search-wrapper'>
-					<Input placeholder='Enter course name or id...' />
-					<Button value='Search' />
+					<Search setValue={setValue} placeholder='Enter course name...' />
 				</div>
 				<div className='add-button-wrapper'>
-					<Button value='Add new course' />
+					<Button setShow={props.setShow} value='Add new course' />
 				</div>
 			</div>
 			<ul>
-				{mockedCoursesList.map((course) => {
+				{courses.map((course) => {
 					let authorsArray = mockedAuthorsList.filter((author) =>
 						course.authors.includes(author.id)
 					);
-					console.log(authorsArray);
 					return (
 						<CourseCard
 							title={course.title}

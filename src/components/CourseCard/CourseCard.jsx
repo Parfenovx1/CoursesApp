@@ -10,7 +10,9 @@ function CourseCard(props) {
 	return (
 		<div className='course-card-wrapper'>
 			<div className='leftside'>
-				<h1 className='course-name'>{props.title}</h1>
+				<h1 className='course-name'>
+					<b>{props.title}</b>
+				</h1>
 				<p className='course-decs'>{props.description}</p>
 			</div>
 			<div className='rightside'>
