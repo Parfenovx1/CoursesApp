@@ -15,6 +15,10 @@ const mockedAuthorsList = [
 		id: '095a1817-d45b-4ed7-9cf7-b2417bcbf748',
 		name: 'Valentina Larina',
 	},
+	{
+		id: 'f35b8bcc-dd0a-43f2-a217-0505627664ba',
+		name: 'Andrey Boyko',
+	},
 ];
 
 export default mockedAuthorsList;

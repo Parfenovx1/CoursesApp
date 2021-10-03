@@ -3,16 +3,15 @@ import './Courses.css';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 import CourseCard from '../CourseCard/CourseCard';
-import mockedCoursesList from '../../sampleCourses';
-import mockedAuthorsList from '../../sampleAuthors';
 
 function Courses(props) {
 	const [inputValue, setValue] = useState('');
-	let [courses, setCourses] = useState(mockedCoursesList);
+	let courses = props.courses;
 
 	courses = courses.filter((course) => {
 		return course.title.toLowerCase().includes(inputValue.toLowerCase());
 	});
+
 	return (
 		<div className='courses-wrapper'>
 			<div className='courses-top-wrapper'>
@@ -24,12 +23,13 @@ function Courses(props) {
 				</div>
 			</div>
 			<ul>
-				{courses.map((course) => {
-					let authorsArray = mockedAuthorsList.filter((author) =>
+				{courses.map((course, key) => {
+					let authorsArray = props.authors.filter((author) =>
 						course.authors.includes(author.id)
 					);
 					return (
 						<CourseCard
+							key={course.id}
 							title={course.title}
 							description={course.description}
 							creationDate={course.creationDate}
