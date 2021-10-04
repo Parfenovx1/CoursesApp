@@ -9,6 +9,8 @@ function Input(props) {
 				class='input'
 				placeholder={props.placeholder}
 				type={props.type}
+				min={props.min}
+				max={props.max}
 				ref={props.reference}
 				onChange={
 					props.handler

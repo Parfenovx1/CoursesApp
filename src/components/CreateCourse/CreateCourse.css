@@ -69,3 +69,25 @@ li{
     list-style-type: none;
 }
 
+.course-authors-list{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+@media(max-width: 1420px){
+    .create-course-main-wrapper{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+}
+
+@media(max-width: 850px){
+    .create-course-main-wrapper{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+}
+

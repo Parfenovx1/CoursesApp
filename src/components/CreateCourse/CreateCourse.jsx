@@ -31,11 +31,15 @@ function CreateCourse(props) {
 	}
 
 	function createAuthor() {
-		const author = {
-			id: uuidv4(),
-			name: nameRef.current.value,
-		};
-		setAuthors([...props.authors, author]);
+		if (!isBlank(nameRef.current.value)) {
+			const author = {
+				id: uuidv4(),
+				name: nameRef.current.value,
+			};
+			setAuthors([...props.authors, author]);
+		} else {
+			alert('Please, fill in author name field');
+		}
 	}
 
 	function deleteAuthor(author) {
@@ -50,6 +54,7 @@ function CreateCourse(props) {
 			!isBlank(titleRef.current.value) &&
 			!isBlank(descriptionRef.current.value) &&
 			!isBlank(durationRef.current.value) &&
+			durationRef.current.value > 0 &&
 			courseAuthors.length > 0
 		) {
 			course = {
@@ -62,6 +67,8 @@ function CreateCourse(props) {
 			};
 			setCourses([...props.courses, course]);
 			props.setShow(isSetShow);
+		} else if (durationRef.current.value < 0) {
+			alert('Please, fill in valid amount of hours');
 		} else {
 			alert('Please, fill in all fields');
 		}
@@ -134,20 +141,22 @@ function CreateCourse(props) {
 								})}
 						</ul>
 					</div>
-					<div className='course-authors'>
+					<div className='course-authors-list'>
 						<span>Course Authors</span>
-						{!courseAuthors.length && <span>Authors list is empty</span>}
-						{courseAuthors.map((author) => {
-							return (
-								<div className='author-item'>
-									<li key={author.id}>{author.name}</li>
-									<Button
-										value='Delete author'
-										handler={() => deleteAuthor(author)}
-									/>
-								</div>
-							);
-						})}
+						<ul>
+							{!courseAuthors.length && <span>Authors list is empty</span>}
+							{courseAuthors.map((author) => {
+								return (
+									<div className='author-item'>
+										<li key={author.id}>{author.name}</li>
+										<Button
+											value='Delete author'
+											handler={() => deleteAuthor(author)}
+										/>
+									</div>
+								);
+							})}
+						</ul>
 					</div>
 				</div>
 			</div>
