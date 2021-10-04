@@ -20,13 +20,13 @@ function CourseCard(props) {
 					<b>Authors: </b>
 					{props.authors.map((author, index) => {
 						if (index + 1 !== props.authors.length) {
-							return <span>{author}, </span>;
+							return <span key={index}>{author}, </span>;
 						}
-						return <span>{author} </span>;
+						return <span key={index}>{author} </span>;
 					})}
 				</p>
 				<p>
-					<b>Duration: </b> {getTimeFromMins(props.duration)}
+					<b>Duration: </b> {getTimeFromMins(props.duration)} hours
 				</p>
 				<p>
 					<b>Created: </b> {props.creationDate}

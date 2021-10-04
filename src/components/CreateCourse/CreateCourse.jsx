@@ -16,6 +16,10 @@ function CreateCourse(props) {
 	let descriptionRef = React.createRef();
 	let durationRef = React.createRef();
 
+	function isBlank(str) {
+		return !str || /^\s*$/.test(str);
+	}
+
 	function getTimeFromMins(mins) {
 		let hours = Math.trunc(mins / 60);
 		let minutes = mins % 60;
@@ -23,7 +27,7 @@ function CreateCourse(props) {
 	}
 
 	function addAuthor(author) {
-		setCourseAuthors([...courseAuthors, author.id]);
+		setCourseAuthors([...courseAuthors, author]);
 	}
 
 	function createAuthor() {
@@ -42,16 +46,25 @@ function CreateCourse(props) {
 	}
 
 	function createCourse(isSetShow) {
-		course = {
-			id: uuidv4(),
-			title: titleRef.current.value,
-			description: descriptionRef.current.value,
-			creationDate: Date.now(),
-			duration: durationRef.current.value,
-			authors: courseAuthors,
-		};
-		setCourses([...props.courses, course]);
-		props.setShow(isSetShow);
+		if (
+			!isBlank(titleRef.current.value) &&
+			!isBlank(descriptionRef.current.value) &&
+			!isBlank(durationRef.current.value) &&
+			courseAuthors.length > 0
+		) {
+			course = {
+				id: uuidv4(),
+				title: titleRef.current.value,
+				description: descriptionRef.current.value,
+				creationDate: new Date().toLocaleDateString(),
+				duration: durationRef.current.value,
+				authors: courseAuthors.map((author) => author.id),
+			};
+			setCourses([...props.courses, course]);
+			props.setShow(isSetShow);
+		} else {
+			alert('Please, fill in all fields');
+		}
 	}
 	return (
 		<div className='create-course-wrapper'>
@@ -59,9 +72,10 @@ function CreateCourse(props) {
 				<Input
 					description='Title'
 					placeholder='Enter title...'
-					titleRef={titleRef}
+					reference={titleRef}
+					type='text'
 				/>
-				<Button setShow={createCourse} value='Create course' />
+				<Button handler={createCourse} value='Create course' />
 			</div>
 			<div className='create-course-desc-wrapper'>
 				<textarea
@@ -80,9 +94,10 @@ function CreateCourse(props) {
 						<Input
 							description='Author name'
 							placeholder='Enter author name...'
-							nameRef={nameRef}
+							reference={nameRef}
+							type='text'
 						/>
-						<Button createAuthor={createAuthor} value='Create author' />
+						<Button handler={createAuthor} value='Create author' />
 					</div>
 					<div className='duration-wrapper'>
 						<span className='duration-title'>
@@ -91,8 +106,9 @@ function CreateCourse(props) {
 						<Input
 							description='Duration'
 							placeholder='Enter duration in minutes...'
-							setInputValue={setInputValue}
-							durationRef={durationRef}
+							handler={setInputValue}
+							reference={durationRef}
+							type='number'
 						/>
 					</div>
 					<p>
@@ -103,22 +119,23 @@ function CreateCourse(props) {
 					<div className='authors-list'>
 						<span>Authors</span>
 						<ul>
-							{props.authors.map((author) => {
-								return (
-									<div className='author-item'>
-										<li key={author.id}>{author.name}</li>
-										<Button
-											value='Add author'
-											addAuthor={addAuthor}
-											author={author}
-										/>
-									</div>
-								);
-							})}
+							{props.authors
+								.filter((author) => !courseAuthors.includes(author))
+								.map((author) => {
+									return (
+										<div className='author-item'>
+											<li key={author.id}>{author.name}</li>
+											<Button
+												value='Add author'
+												handler={() => addAuthor(author)}
+											/>
+										</div>
+									);
+								})}
 						</ul>
 					</div>
 					<div className='course-authors'>
-						<span>Authors</span>
+						<span>Course Authors</span>
 						{!courseAuthors.length && <span>Authors list is empty</span>}
 						{courseAuthors.map((author) => {
 							return (
@@ -126,8 +143,7 @@ function CreateCourse(props) {
 									<li key={author.id}>{author.name}</li>
 									<Button
 										value='Delete author'
-										deleteAuthor={deleteAuthor}
-										author={author}
+										handler={() => deleteAuthor(author)}
 									/>
 								</div>
 							);

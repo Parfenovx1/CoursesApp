@@ -21,11 +21,7 @@ function Search(props) {
 					}
 				}}
 			/>
-			<Button
-				value='Search'
-				searchValue={searchValue}
-				setValue={props.setValue}
-			/>
+			<Button value='Search' handler={() => props.setValue(searchValue)} />
 		</div>
 	);
 }

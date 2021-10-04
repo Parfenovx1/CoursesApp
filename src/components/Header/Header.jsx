@@ -7,7 +7,7 @@ function Header() {
 		<div className='header-wrapper'>
 			<Logo />
 			<div className='user-and-button'>
-				<p class='user-name'>Dave</p>
+				<p className='user-name'>Dave</p>
 				<Button value='Logout' />
 			</div>
 		</div>
