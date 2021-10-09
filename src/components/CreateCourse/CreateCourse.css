@@ -75,6 +75,21 @@ li{
     text-align: center;
 }
 
+.add-author-title{
+    font-weight: bold;
+}
+
+.duration-title{
+    font-weight: bold;
+}
+
+.desc{
+    height: 4.688vw;
+    width: 34.927vw;
+    max-width: 95%;
+    max-height: 400px;
+}
+
 @media(max-width: 1420px){
     .create-course-main-wrapper{
         display: flex;

@@ -3,10 +3,13 @@ import './Courses.css';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 import CourseCard from '../CourseCard/CourseCard';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 
 function Courses(props) {
 	const [inputValue, setValue] = useState('');
 	let courses = props.courses;
+	const history = useHistory();
 
 	courses = courses.filter((course) => {
 		return course.title.toLowerCase().includes(inputValue.toLowerCase());
@@ -19,7 +22,12 @@ function Courses(props) {
 					<Search setValue={setValue} placeholder='Enter course name...' />
 				</div>
 				<div className='add-button-wrapper'>
-					<Button handler={() => props.setShow(true)} value='Add new course' />
+					<Button
+						handler={() => {
+							history.push('/courses/add');
+						}}
+						value='Add new course'
+					/>
 				</div>
 			</div>
 			<ul>
@@ -30,6 +38,7 @@ function Courses(props) {
 					return (
 						<li key={course.id}>
 							<CourseCard
+								id={course.id}
 								title={course.title}
 								description={course.description}
 								creationDate={course.creationDate}
@@ -43,5 +52,10 @@ function Courses(props) {
 		</div>
 	);
 }
+
+Courses.propTypes = {
+	courses: PropTypes.array.isRequired,
+	authors: PropTypes.array.isRequired,
+};
 
 export default Courses;

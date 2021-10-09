@@ -1,11 +1,20 @@
 import './CourseCard.css';
 import Button from '../Button/Button';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 
 function CourseCard(props) {
+	let history = useHistory();
 	function getTimeFromMins(mins) {
 		let hours = Math.trunc(mins / 60);
 		let minutes = mins % 60;
-		return hours + ':' + minutes;
+		return (
+			(hours < 10 ? '0' : '') +
+			hours +
+			':' +
+			(minutes < 10 ? '0' : '') +
+			minutes
+		);
 	}
 	return (
 		<div className='course-card-wrapper'>
@@ -31,10 +40,23 @@ function CourseCard(props) {
 				<p>
 					<b>Created: </b> {props.creationDate}
 				</p>
-				<Button value='Show course' />
+				<Button
+					handler={() => {
+						history.push(`/courses/${props.id}`);
+					}}
+					value='Show course'
+				></Button>
 			</div>
 		</div>
 	);
 }
+
+CourseCard.propTypes = {
+	title: PropTypes.string.isRequired,
+	description: PropTypes.string.isRequired,
+	creationDate: PropTypes.string.isRequired,
+	duration: PropTypes.number.isRequired,
+	authors: PropTypes.array.isRequired,
+};
 
 export default CourseCard;

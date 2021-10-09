@@ -1,0 +1,25 @@
+.course-info-wrapper{
+    border: 1px solid blue;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.rightside{
+    display: flex;
+    flex-direction: column;
+}
+
+.course-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.back-to-courses-wrapper{
+    margin-top: 1vw;
+    display: flex;
+    margin-left: 1vw;
+}

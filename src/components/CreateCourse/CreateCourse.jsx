@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import './CreateCourse.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 function CreateCourse(props) {
 	const [inputValue, setInputValue] = useState();
 	let [courseAuthors, setCourseAuthors] = useState([]);
-	let setAuthors = props.setAuthors;
-	let setCourses = props.setCourses;
+	const { setAuthors, setCourses } = props;
+	const history = useHistory();
 	let course = { authors: [] };
 
 	let nameRef = React.createRef();
@@ -23,7 +25,13 @@ function CreateCourse(props) {
 	function getTimeFromMins(mins) {
 		let hours = Math.trunc(mins / 60);
 		let minutes = mins % 60;
-		return hours + ':' + minutes;
+		return (
+			(hours < 10 ? '0' : '') +
+			hours +
+			':' +
+			(minutes < 10 ? '0' : '') +
+			minutes
+		);
 	}
 
 	function addAuthor(author) {
@@ -33,10 +41,19 @@ function CreateCourse(props) {
 	function createAuthor() {
 		if (!isBlank(nameRef.current.value)) {
 			const author = {
-				id: uuidv4(),
 				name: nameRef.current.value,
 			};
-			setAuthors([...props.authors, author]);
+			const token = localStorage.getItem('token');
+			axios
+				.post('http://localhost:3000/authors/add', author, {
+					headers: {
+						Authorization: token,
+					},
+				})
+				.then((response) => {
+					setAuthors([...props.authors, author]);
+				})
+				.catch((error) => console.log(error));
 		} else {
 			alert('Please, fill in author name field');
 		}
@@ -49,7 +66,7 @@ function CreateCourse(props) {
 		setCourseAuthors(courseAuthors);
 	}
 
-	function createCourse(isSetShow) {
+	function createCourse() {
 		if (
 			!isBlank(titleRef.current.value) &&
 			!isBlank(descriptionRef.current.value) &&
@@ -58,15 +75,25 @@ function CreateCourse(props) {
 			courseAuthors.length > 0
 		) {
 			course = {
-				id: uuidv4(),
 				title: titleRef.current.value,
 				description: descriptionRef.current.value,
-				creationDate: new Date().toLocaleDateString(),
-				duration: durationRef.current.value,
+				duration: Number(durationRef.current.value),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			setCourses([...props.courses, course]);
-			props.setShow(isSetShow);
+			const token = localStorage.getItem('token');
+			axios
+				.post('http://localhost:3000/courses/add', course, {
+					headers: {
+						Authorization: token,
+					},
+				})
+				.then((response) => {
+					setCourses([...props.courses, course]);
+					history.push('/courses');
+				})
+				.catch((error) => {
+					console.log(error);
+				});
 		} else if (durationRef.current.value < 0) {
 			alert('Please, fill in valid amount of hours');
 		} else {
@@ -90,14 +117,12 @@ function CreateCourse(props) {
 					className='desc'
 					placeholder='Enter description'
 					ref={descriptionRef}
-				></textarea>
+				/>
 			</div>
 			<div className='create-course-main-wrapper'>
 				<div className='leftside'>
 					<div className='add-author-wrapper'>
-						<span className='add-author-title'>
-							<b>Add author</b>
-						</span>
+						<span className='add-author-title'>Add author</span>
 						<Input
 							description='Author name'
 							placeholder='Enter author name...'
@@ -107,9 +132,7 @@ function CreateCourse(props) {
 						<Button handler={createAuthor} value='Create author' />
 					</div>
 					<div className='duration-wrapper'>
-						<span className='duration-title'>
-							<b>Duration</b>
-						</span>
+						<span className='duration-title'>Duration</span>
 						<Input
 							description='Duration'
 							placeholder='Enter duration in minutes...'
@@ -163,5 +186,12 @@ function CreateCourse(props) {
 		</div>
 	);
 }
+
+CreateCourse.propTypes = {
+	courses: PropTypes.array.isRequired,
+	authors: PropTypes.array.isRequired,
+	setCourses: PropTypes.func.isRequired,
+	setAruthors: PropTypes.func.isRequired,
+};
 
 export default CreateCourse;

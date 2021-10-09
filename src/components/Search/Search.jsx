@@ -1,6 +1,7 @@
 import './Search.css';
 import Button from '../Button/Button';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function Search(props) {
 	const [searchValue, setSearchValue] = useState('');
@@ -25,5 +26,10 @@ function Search(props) {
 		</div>
 	);
 }
+
+Search.propsTypes = {
+	setValue: PropTypes.func.isRequired,
+	placeholder: PropTypes.string.isRequired,
+};
 
 export default Search;
