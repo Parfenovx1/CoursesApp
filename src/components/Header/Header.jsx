@@ -34,6 +34,7 @@ function Header() {
 			.then((response) => {
 				localStorage.removeItem('token');
 				history.push('/login');
+				history.go(0);
 			});
 	};
 	return (

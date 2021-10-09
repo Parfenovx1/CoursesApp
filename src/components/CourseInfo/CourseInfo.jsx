@@ -62,6 +62,9 @@ function CourseInfo(props) {
 							)
 							.filter((author) => !!author)
 							.map((author, index) => {
+								if (index + 1 !== course.authors.length) {
+									return <span key={index}>{author.name}, </span>;
+								}
 								return <span key={index}>{author.name} </span>;
 							})}
 					</p>

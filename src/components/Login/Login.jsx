@@ -9,6 +9,7 @@ import React from 'react';
 function Login() {
 	const history = useHistory();
 	let formRef = React.createRef();
+
 	const submitHandler = function (event) {
 		event.preventDefault();
 		let obj = {
@@ -20,6 +21,7 @@ function Login() {
 			.then((response) => {
 				localStorage.setItem('token', response.data.result);
 				history.push('/courses');
+				history.go(0);
 			})
 			.catch((error) => console.err(error));
 	};
@@ -39,15 +41,7 @@ function Login() {
 					description='Password'
 					type='password'
 				/>
-				<Button
-					type='submit'
-					value='Login'
-					// handler={() => {
-					// 	setTimeout(() => {
-					// 		window.location.reload();
-					// 	}, 500);
-					// }}
-				/>
+				<Button type='submit' value='Login' />
 				<p className='registration-link'>
 					If you not have an account you can{' '}
 					<Link to='/registration'>Register</Link>
