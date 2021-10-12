@@ -3,13 +3,14 @@ import './CreateCourse.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { useHistory } from 'react-router';
-
+import { connect } from 'react-redux';
+import * as courseActionCreators from '../../store/courses/actionCreators';
+import * as authorActionCreators from '../../store/authors/actionCreators';
+import * as userActionCreators from '../../store/user/actionCreators';
 function CreateCourse(props) {
 	const [inputValue, setInputValue] = useState();
 	let [courseAuthors, setCourseAuthors] = useState([]);
-	const { setAuthors, setCourses } = props;
 	const history = useHistory();
 	let course = { authors: [] };
 
@@ -43,17 +44,12 @@ function CreateCourse(props) {
 			const author = {
 				name: nameRef.current.value,
 			};
-			const token = localStorage.getItem('token');
-			axios
-				.post('http://localhost:3000/authors/add', author, {
-					headers: {
-						Authorization: token,
-					},
+			props
+				.createAuthor(author)
+				.then(() => {
+					nameRef.current.value = ''; //!!!!!!!!!!!
 				})
-				.then((response) => {
-					setAuthors([...props.authors, author]);
-				})
-				.catch((error) => console.log(error));
+				.catch((error) => console.log(error.message));
 		} else {
 			alert('Please, fill in author name field');
 		}
@@ -80,15 +76,9 @@ function CreateCourse(props) {
 				duration: Number(durationRef.current.value),
 				authors: courseAuthors.map((author) => author.id),
 			};
-			const token = localStorage.getItem('token');
-			axios
-				.post('http://localhost:3000/courses/add', course, {
-					headers: {
-						Authorization: token,
-					},
-				})
+			props
+				.addCourse(course)
 				.then((response) => {
-					setCourses([...props.courses, course]);
 					history.push('/courses');
 				})
 				.catch((error) => {
@@ -190,8 +180,16 @@ function CreateCourse(props) {
 CreateCourse.propTypes = {
 	courses: PropTypes.array.isRequired,
 	authors: PropTypes.array.isRequired,
-	setCourses: PropTypes.func.isRequired,
-	setAruthors: PropTypes.func.isRequired,
 };
 
-export default CreateCourse;
+function mapStateToProps(state) {
+	return { authors: state.authors, courses: state.courseReducer };
+}
+
+const mapActionsToProps = {
+	addCourse: courseActionCreators.addCourse,
+	createAuthor: authorActionCreators.createAuthor,
+	me: userActionCreators.me,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(CreateCourse);

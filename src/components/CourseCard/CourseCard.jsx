@@ -40,12 +40,16 @@ function CourseCard(props) {
 				<p>
 					<b>Created: </b> {props.creationDate}
 				</p>
-				<Button
-					handler={() => {
-						history.push(`/courses/${props.id}`);
-					}}
-					value='Show course'
-				></Button>
+				<div className='buttons-wrapper'>
+					<Button
+						handler={() => {
+							history.push(`/courses/${props.id}`);
+						}}
+						value='Show course'
+					></Button>
+					<Button value='Update course' />
+					<Button value='Delete course' />
+				</div>
 			</div>
 		</div>
 	);

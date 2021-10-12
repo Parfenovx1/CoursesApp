@@ -33,6 +33,17 @@
     justify-content: center;
 }
 
+.buttons-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-content: space-around;
+    margin: -5px;
+}
+
+.buttons-wrapper button{
+    margin: 5px;
+}
+
 @media(max-width: 860px){
     .course-card-wrapper{
         flex-direction: column;

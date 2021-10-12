@@ -2,11 +2,13 @@ import './Login.css';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useHistory } from 'react-router';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { login } from '../../store/user/actionCreators';
+import { connect } from 'react-redux';
 
-function Login() {
+function Login(props) {
 	const history = useHistory();
 	let formRef = React.createRef();
 
@@ -16,12 +18,10 @@ function Login() {
 			email: formRef.current[0].value,
 			password: formRef.current[1].value,
 		};
-		axios
-			.post('http://localhost:3000/login', obj)
+		props
+			.login(obj)
 			.then((response) => {
-				localStorage.setItem('token', response.data.result);
 				history.push('/courses');
-				history.go(0);
 			})
 			.catch((error) => console.err(error));
 	};
@@ -51,4 +51,12 @@ function Login() {
 	);
 }
 
-export default Login;
+Login.propTypes = {
+	login: PropTypes.func.isRequired,
+};
+
+const mapActionsToProps = {
+	login: login,
+};
+
+export default connect(null, mapActionsToProps)(Login);

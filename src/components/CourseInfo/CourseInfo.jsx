@@ -2,9 +2,11 @@ import './CourseInfo.css';
 import Button from '../Button/Button';
 import { useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router';
+import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCourse } from '../../store/courses/actionCreators';
 
 function CourseInfo(props) {
 	let [course, setCourse] = useState({ authors: [] });
@@ -20,16 +22,11 @@ function CourseInfo(props) {
 		);
 	}
 	let history = useHistory();
-	let location = useLocation();
-	let s = location.pathname;
+	let { id } = useParams();
 	useEffect(() => {
-		let id = s.split('/').pop();
-		const fetchCoursesData = async () => {
-			const response = await axios.get(`http://localhost:3000/courses/${id}`);
-
-			setCourse(response.data.result);
-		};
-		fetchCoursesData();
+		props.getCourse(id).then((response) => {
+			setCourse(response);
+		});
 	}, []);
 	return (
 		<div className='course-info-wrapper'>
@@ -78,4 +75,12 @@ CourseInfo.propTypes = {
 	authors: PropTypes.array.isRequired,
 };
 
-export default CourseInfo;
+function mapStateToProps(state) {
+	return { courses: state.courses, authors: state.authors };
+}
+
+const mapActionsToProps = {
+	getCourse: getCourse,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(CourseInfo);
