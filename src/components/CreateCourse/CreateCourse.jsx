@@ -180,6 +180,9 @@ function CreateCourse(props) {
 CreateCourse.propTypes = {
 	courses: PropTypes.array.isRequired,
 	authors: PropTypes.array.isRequired,
+	me: PropTypes.func.isRequired,
+	createAuthor: PropTypes.func.isRequired,
+	addCourse: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

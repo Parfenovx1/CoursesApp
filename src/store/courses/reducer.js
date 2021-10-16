@@ -24,7 +24,9 @@ function courses(courses = initialState, action) {
 				}
 			});
 		case actions.DELETE_COURSE:
-			return courses.filter(({ id }) => id !== payload.id);
+			return courses.filter((course) => {
+				return course.id !== payload;
+			});
 		default:
 			return courses;
 	}

@@ -25,7 +25,7 @@ class ApiService {
 		});
 	}
 
-	deleteCourses(id, token) {
+	deleteCourse(id, token) {
 		return axios.delete(`http://localhost:3000/courses/${id}`, {
 			headers: {
 				Authorization: token,

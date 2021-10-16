@@ -1,6 +1,5 @@
 import './CourseInfo.css';
 import Button from '../Button/Button';
-import { useLocation } from 'react-router';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
@@ -73,6 +72,8 @@ function CourseInfo(props) {
 
 CourseInfo.propTypes = {
 	authors: PropTypes.array.isRequired,
+	courses: PropTypes.array.isRequired,
+	getCourse: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {

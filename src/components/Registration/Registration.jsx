@@ -6,6 +6,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { register } from '../../store/user/actionCreators';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 function Registration(props) {
 	const history = useHistory();
@@ -54,6 +55,10 @@ function Registration(props) {
 		</div>
 	);
 }
+
+Registration.propTypes = {
+	register: PropTypes.func.isRequired,
+};
 
 const mapActionsToProps = {
 	register: register,

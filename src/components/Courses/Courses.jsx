@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import * as courseActionCreators from '../../store/courses/actionCreators';
 import * as authorActionCreators from '../../store/authors/actionCreators';
 import * as userActionCreators from '../../store/user/actionCreators';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 function Courses(props) {
 	const [inputValue, setValue] = useState('');
@@ -80,6 +80,9 @@ function Courses(props) {
 Courses.propTypes = {
 	courses: PropTypes.array.isRequired,
 	authors: PropTypes.array.isRequired,
+	getCourses: PropTypes.func.isRequired,
+	getAuthors: PropTypes.func.isRequired,
+	me: PropTypes.func.isRequired,
 };
 
 const mapActionsToProps = {

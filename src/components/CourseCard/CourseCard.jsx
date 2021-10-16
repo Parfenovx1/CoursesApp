@@ -2,6 +2,8 @@ import './CourseCard.css';
 import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { deleteCourse } from '../../store/courses/actionCreators';
 
 function CourseCard(props) {
 	let history = useHistory();
@@ -15,6 +17,9 @@ function CourseCard(props) {
 			(minutes < 10 ? '0' : '') +
 			minutes
 		);
+	}
+	function deleteCourse(id = props.id) {
+		props.deleteCourse(id);
 	}
 	return (
 		<div className='course-card-wrapper'>
@@ -48,7 +53,7 @@ function CourseCard(props) {
 						value='Show course'
 					></Button>
 					<Button value='Update course' />
-					<Button value='Delete course' />
+					<Button handler={deleteCourse} value='Delete course' />
 				</div>
 			</div>
 		</div>
@@ -61,6 +66,11 @@ CourseCard.propTypes = {
 	creationDate: PropTypes.string.isRequired,
 	duration: PropTypes.number.isRequired,
 	authors: PropTypes.array.isRequired,
+	deleteCourse: PropTypes.func.isRequired,
 };
 
-export default CourseCard;
+const mapActionsToProps = {
+	deleteCourse: deleteCourse,
+};
+
+export default connect(null, mapActionsToProps)(CourseCard);

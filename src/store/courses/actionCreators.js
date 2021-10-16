@@ -48,7 +48,7 @@ export const updateCourse =
 			);
 			dispatch({
 				type: actions.UPDATE_COURSE,
-				payload: updatedCourse,
+				payload: res.data.result,
 			});
 			return Promise.resolve(res.data);
 		} catch (err) {
@@ -59,7 +59,7 @@ export const updateCourse =
 export const deleteCourse = (id) => async (dispatch, getState) => {
 	try {
 		const state = getState();
-		const res = await apiService.updateCourse(id, state.user.token);
+		const res = await apiService.deleteCourse(id, state.user.token);
 		dispatch({
 			type: actions.DELETE_COURSE,
 			payload: id,
