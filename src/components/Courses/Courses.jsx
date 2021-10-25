@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './Courses.css';
-import CreateCourse from '../CreateCourse/CreateCourse';
+import CourseForm from '../CourseForm/CourseForm';
 import CourseInfo from '../CourseInfo/CourseInfo';
 import Button from '../Button/Button';
 import Search from '../Search/Search';
 import CourseCard from '../CourseCard/CourseCard';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
@@ -71,7 +72,8 @@ function Courses(props) {
 					</ul>
 				</div>
 			</Route>
-			<Route exact path='/courses/add' component={CreateCourse} />
+			<PrivateRoute exact path='/courses/add' component={CourseForm} />
+			<PrivateRoute exact path='/courses/update/:id' component={CourseForm} />
 			<Route path='/courses/:id' component={CourseInfo} />
 		</Switch>
 	);
@@ -92,7 +94,7 @@ const mapActionsToProps = {
 };
 
 function mapStateToProps(state) {
-	return { courses: state.courses, authors: state.authors };
+	return { courses: state.courses, authors: state.authors, user: state.user };
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Courses);

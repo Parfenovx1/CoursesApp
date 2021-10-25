@@ -33,7 +33,7 @@ function Header(props) {
 
 Header.propTypes = {
 	logout: PropTypes.func.isRequired,
-	user: PropTypes.array.isRequired,
+	user: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

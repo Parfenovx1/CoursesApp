@@ -8,9 +8,9 @@ export const login = (obj) => async (dispatch) => {
 		dispatch({
 			type: actions.LOGIN,
 			payload: {
-				token: loginResponse.data.result,
-				name: loginResponse.data.user.name,
-				email: loginResponse.data.user.email,
+				token: loginResponse?.data?.result,
+				name: loginResponse?.data?.user.name,
+				email: loginResponse?.data?.user.email,
 			},
 		});
 		return Promise.resolve();
@@ -32,6 +32,7 @@ export const me = () => async (dispatch) => {
 				token: token,
 				name: res.data.result.name,
 				email: res.data.result.email,
+				role: res.data.result.role,
 			},
 		});
 		return Promise.resolve(true);

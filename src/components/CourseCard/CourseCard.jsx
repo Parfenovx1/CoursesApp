@@ -52,8 +52,17 @@ function CourseCard(props) {
 						}}
 						value='Show course'
 					></Button>
-					<Button value='Update course' />
-					<Button handler={deleteCourse} value='Delete course' />
+					{props.user.role === 'admin' ? (
+						<>
+							<Button
+								handler={() => {
+									history.push(`/courses/update/${props.id}`);
+								}}
+								value='Update course'
+							/>
+							<Button handler={deleteCourse} value='Delete course' />
+						</>
+					) : null}
 				</div>
 			</div>
 		</div>
@@ -73,4 +82,8 @@ const mapActionsToProps = {
 	deleteCourse: deleteCourse,
 };
 
-export default connect(null, mapActionsToProps)(CourseCard);
+function mapStateToProps(state) {
+	return { user: state.user };
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(CourseCard);
