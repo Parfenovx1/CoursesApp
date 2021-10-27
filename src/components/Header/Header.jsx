@@ -2,7 +2,7 @@ import './Header.css';
 import Logo from '../Logo/Logo';
 import Button from '../Button/Button';
 import { useHistory } from 'react-router';
-import { logout } from '../../store/user/actionCreators';
+import { logout } from '../../store/user/thunk';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 

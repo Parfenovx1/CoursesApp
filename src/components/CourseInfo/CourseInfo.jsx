@@ -5,21 +5,12 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCourse } from '../../store/courses/actionCreators';
+import { getCourse } from '../../store/courses/thunk';
+import { getTimeFromMins } from '../shared/functions';
 
 function CourseInfo(props) {
 	let [course, setCourse] = useState({ authors: [] });
-	function getTimeFromMins(mins) {
-		let hours = Math.trunc(mins / 60);
-		let minutes = mins % 60;
-		return (
-			(hours < 10 ? '0' : '') +
-			hours +
-			':' +
-			(minutes < 10 ? '0' : '') +
-			minutes
-		);
-	}
+
 	let history = useHistory();
 	let { id } = useParams();
 	useEffect(() => {

@@ -5,9 +5,10 @@ import Button from '../Button/Button';
 import PropTypes from 'prop-types';
 import { useHistory, useParams } from 'react-router';
 import { connect } from 'react-redux';
-import * as courseActionCreators from '../../store/courses/actionCreators';
-import * as authorActionCreators from '../../store/authors/actionCreators';
-import * as userActionCreators from '../../store/user/actionCreators';
+import * as courseActionCreators from '../../store/courses/thunk';
+import * as authorActionCreators from '../../store/authors/thunk';
+import * as userActionCreators from '../../store/user/thunk';
+import { getTimeFromMins, handleOnChange } from '../shared/functions';
 function CourseForm(props) {
 	const history = useHistory();
 	let [author, setAuthor] = useState({ name: '' });
@@ -17,20 +18,21 @@ function CourseForm(props) {
 		duration: 0,
 		authors: [],
 	});
+	let { id } = useParams();
+	useEffect(() => {
+		props.getCourse(id).then((response) => {
+			let courseToUpdate = response;
+			setCourse({
+				...courseToUpdate,
+				authors: props.authors.filter((author) =>
+					courseToUpdate.authors.includes(author.id)
+				),
+			});
+		});
+	}, []);
+
 	function isBlank(str) {
 		return !str || /^\s*$/.test(str);
-	}
-
-	function getTimeFromMins(mins) {
-		let hours = Math.trunc(mins / 60);
-		let minutes = mins % 60;
-		return (
-			(hours < 10 ? '0' : '') +
-			hours +
-			':' +
-			(minutes < 10 ? '0' : '') +
-			minutes
-		);
 	}
 
 	function addAuthor(author) {
@@ -50,14 +52,6 @@ function CourseForm(props) {
 			return courseAuthor.id !== author.id;
 		});
 		setCourse({ ...course, ...{ authors: courseAuthors } });
-	}
-
-	function handleCourseOnChange(event) {
-		setCourse({ ...course, ...{ [event.target.name]: event.target.value } });
-	}
-
-	function handleAuthorOnChange(event) {
-		setAuthor({ ...author, ...{ [event.target.name]: event.target.value } });
 	}
 
 	function CreateCourse(event) {
@@ -90,13 +84,6 @@ function CourseForm(props) {
 			alert('Please, fill in all fields');
 		}
 	}
-	let { id } = useParams();
-	useEffect(() => {
-		props.getCourse(id).then((response) => {
-			setCourse(response);
-			console.log(course);
-		});
-	}, []);
 	function UpdateCourse(event) {
 		event.preventDefault();
 		if (
@@ -128,115 +115,32 @@ function CourseForm(props) {
 			alert('Please, fill in all fields');
 		}
 	}
-	return id ? (
-		<form onSubmit={UpdateCourse}>
-			<div className='create-course-wrapper'>
-				<div className='create-course-header-wrapper'>
-					<Input
-						description='Title'
-						placeholder={course.title}
-						type='text'
-						handler={handleCourseOnChange}
-						name='title'
-					/>
-					<Button type='submit' value='Update course' />
-				</div>
-				<div className='create-course-desc-wrapper'>
-					<textarea
-						name='description'
-						className='desc'
-						placeholder={course.description}
-						onChange={handleCourseOnChange}
-					/>
-				</div>
-				<div className='create-course-main-wrapper'>
-					<div className='leftside'>
-						<div className='add-author-wrapper'>
-							<span className='add-author-title'>Add author</span>
-							<Input
-								description='Author name'
-								placeholder='Enter author name...'
-								handler={handleAuthorOnChange}
-								type='text'
-								name='name'
-							/>
-							<Button handler={createAuthor} value='Create author' />
-						</div>
-						<div className='duration-wrapper'>
-							<span className='duration-title'>Duration</span>
-							<Input
-								description='Duration'
-								placeholder={getTimeFromMins(course.duration)}
-								type='number'
-								handler={handleCourseOnChange}
-								name='duration'
-							/>
-						</div>
-						<p>
-							Duration:{' '}
-							{course.duration ? getTimeFromMins(course.duration) : '00:00'}{' '}
-							hours
-						</p>
-					</div>
-					<div className='rightside'>
-						<div className='authors-list'>
-							<span>Authors</span>
-							<ul>
-								{props.authors
-									.filter((author) => !course.authors.includes(author))
-									.map((author) => {
-										return (
-											<div className='author-item'>
-												<li key={author.id}>{author.name}</li>
-												<Button
-													value='Add author'
-													handler={() => addAuthor(author)}
-												/>
-											</div>
-										);
-									})}
-							</ul>
-						</div>
-						<div className='course-authors-list'>
-							<span>Course Authors</span>
-							<ul>
-								{!course.authors.length && <span>Authors list is empty</span>}
-								{course.authors.map((author) => {
-									return (
-										<div className='author-item'>
-											<li key={author.id}>{author.name}</li>
-											<Button
-												value='Delete author'
-												handler={() => deleteAuthor(author)}
-											/>
-										</div>
-									);
-								})}
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-	) : (
-		<form onSubmit={CreateCourse}>
+	let courseChangeHandler = (event) => handleOnChange(event, setCourse, course);
+	let authorChangeHandler = (event) => handleOnChange(event, setAuthor, author);
+	return (
+		<form onSubmit={id ? UpdateCourse : CreateCourse}>
 			<div className='create-course-wrapper'>
 				<div className='create-course-header-wrapper'>
 					<Input
 						description='Title'
 						placeholder='Enter title...'
 						type='text'
-						handler={handleCourseOnChange}
+						handler={courseChangeHandler}
 						name='title'
+						value={course.title}
 					/>
-					<Button type='submit' value='Create course' />
+					<Button
+						type='submit'
+						value={id ? 'Update course' : 'Create course'}
+					/>
 				</div>
 				<div className='create-course-desc-wrapper'>
 					<textarea
 						name='description'
 						className='desc'
 						placeholder='Enter description'
-						onChange={handleCourseOnChange}
+						onChange={courseChangeHandler}
+						value={course.description}
 					/>
 				</div>
 				<div className='create-course-main-wrapper'>
@@ -246,7 +150,7 @@ function CourseForm(props) {
 							<Input
 								description='Author name'
 								placeholder='Enter author name...'
-								handler={handleAuthorOnChange}
+								handler={authorChangeHandler}
 								type='text'
 								name='name'
 							/>
@@ -258,8 +162,9 @@ function CourseForm(props) {
 								description='Duration'
 								placeholder='Enter duration in minutes...'
 								type='number'
-								handler={handleCourseOnChange}
+								handler={courseChangeHandler}
 								name='duration'
+								value={course.duration}
 							/>
 						</div>
 						<p>

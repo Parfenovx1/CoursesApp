@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { useEffect } from 'react';
-import * as courseActionCreators from '../../store/courses/actionCreators';
-import * as authorActionCreators from '../../store/authors/actionCreators';
-import * as userActionCreators from '../../store/user/actionCreators';
+import * as courseActionCreators from '../../store/courses/thunk';
+import * as authorActionCreators from '../../store/authors/thunk';
+import * as userActionCreators from '../../store/user/thunk';
 import { Switch, Route } from 'react-router-dom';
 
 function Courses(props) {

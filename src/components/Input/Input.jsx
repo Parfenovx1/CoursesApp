@@ -12,6 +12,7 @@ function Input(props) {
 				placeholder={props.placeholder}
 				type={props.type}
 				onChange={props.handler ?? null}
+				value={props.value}
 			/>
 		</div>
 	);
@@ -22,6 +23,7 @@ Input.propTypes = {
 	description: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	handler: PropTypes.func,
+	value: PropTypes.string,
 };
 
 export default Input;
