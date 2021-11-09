@@ -12,7 +12,7 @@ function CourseCard(props) {
 		props.deleteCourse(id);
 	}
 	return (
-		<div className='course-card-wrapper'>
+		<div className='course-card-wrapper' data-testid='courseCard'>
 			<div className='leftside'>
 				<h1 className='course-name'>
 					<b>{props.title}</b>

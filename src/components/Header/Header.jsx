@@ -15,7 +15,7 @@ function Header(props) {
 		});
 	};
 	return (
-		<div className='header-wrapper'>
+		<div className='header-wrapper' data-testid='header'>
 			<Logo />
 			<div className='user-and-button'>
 				{props.user.isAuth ? (

@@ -8,6 +8,7 @@ function Button(props) {
 			type={props.type}
 			onClick={props.handler ? () => props.handler() : null}
 			className='button'
+			data-testid='button'
 		>
 			{value}
 		</button>

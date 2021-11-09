@@ -118,7 +118,10 @@ function CourseForm(props) {
 	let courseChangeHandler = (event) => handleOnChange(event, setCourse, course);
 	let authorChangeHandler = (event) => handleOnChange(event, setAuthor, author);
 	return (
-		<form onSubmit={id ? UpdateCourse : CreateCourse}>
+		<form
+			onSubmit={id ? UpdateCourse : CreateCourse}
+			data-testid='createCourse'
+		>
 			<div className='create-course-wrapper'>
 				<div className='create-course-header-wrapper'>
 					<Input
@@ -176,7 +179,7 @@ function CourseForm(props) {
 					<div className='rightside'>
 						<div className='authors-list'>
 							<span>Authors</span>
-							<ul>
+							<ul data-testid='authorsList'>
 								{props.authors
 									.filter((author) => !course.authors.includes(author))
 									.map((author) => {
@@ -194,7 +197,7 @@ function CourseForm(props) {
 						</div>
 						<div className='course-authors-list'>
 							<span>Course Authors</span>
-							<ul>
+							<ul data-testid='courseAuthorsList'>
 								{!course.authors.length && <span>Authors list is empty</span>}
 								{course.authors.map((author) => {
 									return (

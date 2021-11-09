@@ -10,7 +10,6 @@ import { getTimeFromMins } from '../shared/functions';
 
 function CourseInfo(props) {
 	let [course, setCourse] = useState({ authors: [] });
-
 	let history = useHistory();
 	let { id } = useParams();
 	useEffect(() => {
